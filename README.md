@@ -1,2 +1,0 @@
-# gitub.io
-final homework
