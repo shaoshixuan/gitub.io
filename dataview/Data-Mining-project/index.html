@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>舆情模拟系统</title>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript" src="js/jquery.liMarquee.js"></script>
+    <script type="text/javascript" src="js/jquery.cxselect.min.js"></script>
+    <link rel="stylesheet" href="css/comon0.css">
+</head>
+
+<body>
+    <div style="background:#000 center top;">
+<!--        <div style = 'baclgrond:#FFF'>-->
+        <div class="loading">
+            <div class="loadbox"> <img src="img/loading.gif"> 页面加载中... </div>
+        </div>
+        <div class="back"></div>
+        <div class="head">
+            <div class="JavaS"><a href="https://gitee.com/iGaoWei/big-data-view" target="_blank"></a></div>
+            <div class="weather"><span id="showTime"></span></div>
+            <a href="https://gitee.com/iGaoWei/big-data-view" target="_blank">
+                <h1 >舆情模拟可视化</h1>
+            </a>
+
+        </div>
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000); /*开始运行*/
+            function time() {
+                clearTimeout(t); /*清除定时器*/
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();
+                var m = dt.getMinutes();
+                var s = dt.getSeconds();
+                document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+                t = setTimeout(time, 1000);
+            }
+        </script>
+        <div class="mainbox">
+            <ul class="clearfix">
+                <li class="left">
+                      <div class="boxall" style="height:280px;">
+                        <div class="alltitle">大众情绪</div>
+                        <div class="navboxall" id="echart1">
+                        </div>
+                    </div>
+
+                    <div class="boxall" style="height:310px;">
+                        <div class="alltitle">模拟用户分布</div>
+                        <div class="navboxall chart" id="echart4">
+                        </div>
+                        <script type="text/javascript">
+                             var myChart = echarts.init(document.getElementById('echart4'));
+                          var option = {
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        top: 'bottom',
+        data: ['11-05', '11-07', '11-09', '11-11'],
+        textStyle:{color:'#fff'}
+
+    },
+    series: [
+        {
+            name: '11-05',
+            type: 'pie',
+            radius: '50%',
+            center: ['50%', '50%'],
+            data: [
+                {value: 1914, name: '大众', itemStyle: {color: '#4b7bec'}}, // 蓝色
+                {value: 69, name: '核心', itemStyle: {color: '#f1c40f'}}, // 黄色
+                {value: 103, name: '媒体', itemStyle: {color: '#3498db'}} // 浅蓝色
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        },
+        {
+            name: '11-07',
+            type: 'pie',
+            radius: '50%',
+            center: ['50%', '50%'],
+            data: [
+                {value: 81, name: '核心', itemStyle: {color: '#f39c12'}}, // 深黄色
+                {value: 106, name: '媒体', itemStyle: {color: '#1abc9c'}}, // 青色（接近蓝绿）
+                {value: 1956, name: '大众', itemStyle: {color: '#2ecc71'}} // 酸橙绿（接近黄绿）
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        },
+        {
+            name: '11-09',
+            type: 'pie',
+            radius: '50%',
+            center: ['50%', '50%'],
+            data: [
+                {value: 69, name: '核心', itemStyle: {color: '#8e44ad'}}, // 深紫色（接近蓝色）
+                {value: 106, name: '媒体', itemStyle: {color: '#27ae60'}}, // 酸橙绿（接近蓝绿）
+                {value: 1969, name: '大众', itemStyle: {color: '#d35400'}} // 橙色
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        },
+        {
+            name: '11-11',
+            type: 'pie',
+            radius: '50%',
+            center: ['50%', '50%'],
+            data: [
+                {value: 82, name: '核心', itemStyle: {color: '#2980b9'}}, // 深蓝色
+                {value: 85, name: '媒体', itemStyle: {color: '#e67e22'}}, // 橙色
+                {value: 1705, name: '大众', itemStyle: {color: '#2ecc71'}} // 白色（接近浅蓝）
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+                        </script>
+
+                    </div>
+                </li>
+                <li class="middle">
+
+                    <div class="boxall" style="height:290px">
+                        <div class="alltitle">讨论量实际与模拟图</div>
+                        <div class="navboxall" id="echart6"></div>
+                    </div>
+
+                    <script type="text/javascript">
+
+        // 基于准备好的dom，初始化echarts实例
+         var myChart = echarts.init(document.getElementById('echart6'));
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                }
+            },
+            legend: {
+
+                //icon: 'vertical',
+                data: ['讨论量'],
+                //align: 'center',
+                // right: '35%',
+                top: '0',
+                textStyle: {
+                    color: "#fff"
+                },
+                // itemWidth: 15,
+                // itemHeight: 15,
+                itemGap: 20,
+            },
+            grid: {
+                left: '0',
+                right: '20',
+                top: '10',
+                bottom: '20',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: 'rgba(255,255,255,1)',
+                        fontSize: 11
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,.1)'
+                    }
+                },
+                data: ['2024-11-02', '2024-11-03', '2024-11-04', '2024-11-05', '2024-11-06', '2024-11-07', '2024-11-08', '2024-11-09',
+                    '2024-11-10', '2024-11-11', '2024-11-12', '2024-11-13', '2024-11-14', '2024-11-15'
+                ]
+            }, {
+            }],
+            yAxis: [{
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: 'rgba(255,255,255,.6)'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,.1)'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,.1)'
+                    }
+                }
+            }],
+            series: [ {
+                name: '讨论量',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 2
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(39, 122,206, 0.3)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(39, 122,206, 0)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#277ace',
+                        borderColor: 'rgba(0,136,212,0.2)',
+                        borderWidth: 12
+                    }
+                },
+                data: [0,30,28409,14491,6755,3052,1381,809,355,326,205,2167,715,78]
+            }, {
+                name: '模拟讨论人数',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 2
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(39, 122,206, 0.3)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(39, 122,206, 0)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#67E0E3',
+                        borderColor: 'rgba(10,148,236,0.5)',
+                        borderWidth: 12
+                    }
+                },
+                data: [0,0,0, 2086, 1928,2143 , 1957, 2144, 2047, 1872, 1957, 1851, 1991]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+
+                    </script>
+
+                    <div class="boxall" style="height:300px">
+                        <div class="alltitle">情感模拟走势图</div>
+                        <div class="navboxall" id="echart7"></div>
+                    </div>
+
+                    <script type="text/javascript">
+                         var myChart = echarts.init(document.getElementById('echart7'));
+
+
+let base = +new Date(2024, 10, 5); // 设置起始日期为2024-11-5
+let oneDay = 24 * 3600 * 1000; // 一天的毫秒数
+let data = [0.9999999999995592, 0.9999923907111659, 0.06735489611612722, 0.9999999999975793];
+let data2 = [];
+// 假设这是您的实际数据，格式为 [日期, 值]
+const yourData = [
+  ['2024-11-5', 0.51],
+  ['2024-11-6', 0.51],
+  ['2024-11-7', 0.53],
+  ['2024-11-8', 0.51],
+  ['2024-11-9', 0.53],
+  ['2024-11-10', 0.52],
+  ['2024-11-11', 0.52],
+  ['2024-11-12', 0.53],
+  ['2024-11-13', 0.53],
+  ['2024-11-14', 0.52]
+];
+const yourData1 = [
+  ['2024-11-5', 0.5],
+  ['2024-11-6', 0.5],
+  ['2024-11-7', 0.5],
+  ['2024-11-8', 0.5],
+  ['2024-11-9', 0.5],
+  ['2024-11-10', 0.5],
+  ['2024-11-11', 0.5],
+  ['2024-11-12', 0.5],
+  ['2024-11-13', 0.5],
+  ['2024-11-14', 0.5]
+];
+const yourData2 = [
+  ['2024-11-5', 0.90],
+  ['2024-11-6', 1.0],
+  ['2024-11-7',1.0],
+  ['2024-11-8', 0.96],
+  ['2024-11-9', 1.0],
+  ['2024-11-10', 0.99],
+  ['2024-11-11', 1.0],
+  ['2024-11-12', 0.99],
+  ['2024-11-13', 0.99],
+  ['2024-11-14', 1.0]
+];
+// 使用您自己的数据填充 data 和 data2 数组
+data = yourData.map(item => [item[0], item[1]]);
+data2 = yourData1.map(item => [item[0], item[1]]);
+data3 = yourData2.map(item => [item[0],item[1]]);
+option = {
+  legend: {
+    textStyle:{
+        color:'#fff'
+     },
+    top: '5%',
+    data: ['大众', '媒体','核心']
+  },
+  tooltip: {
+    triggerOn: 'none',
+    position: function (pt) {
+      return [pt[0], 130];
+    }
+  },
+  toolbox: {
+    left: 'center',
+    itemSize: 20,
+    top: 35,
+    feature: {
+      dataZoom: {
+        yAxisIndex: 'none'
+      },
+      restore: {}
+    }
+  },
+  xAxis: {
+    type: 'time',
+    axisPointer: {
+      value: '2024-11-5',
+      snap: false,
+      lineStyle: {
+        color: '#7581BD',
+        width: 2
+      },
+      label: {
+        show: true,
+        formatter: function (params) {
+          return echarts.format.formatTime('yyyy-MM-dd', params.value);
+        },
+        backgroundColor: '#7581BD'
+      },
+      handle: {
+        show: true,
+        color: '#777',
+        size:25
+      }
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    type: 'value',
+    axisLine:{
+    lineStyle:{
+    color:'#fff'}
+    },
+    axisTick: {
+      inside: true
+    },
+    splitLine: {
+      show: false
+    },
+    axisLabel: {
+      inside: true,
+      formatter: '{value}\n'
+    },
+    z: 10
+  },
+  grid: {
+    top: 65,
+    left: 15,
+    right: 15,
+    height: 110
+  },
+  dataZoom: [
+    {
+      type: 'inside',
+      throttle: 50
+    }
+  ],
+  series: [
+    {
+      name: '大众',
+      type: 'line',
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 5,
+      sampling: 'average',
+      itemStyle: {
+        color: '#31C27C'
+      },
+      stack: 'a',
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgba(49,194,124,0.8)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(49,194,124,0.3)'
+          }
+        ])
+      },
+      data: data
+    },
+    {
+      name: '媒体',
+      type: 'line',
+      smooth: true,
+      stack: 'a',
+      symbol: 'circle',
+      symbolSize: 5,
+      sampling: 'average',
+      itemStyle: {
+        color: '#F2597F'
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgba(213,72,120,0.8)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(213,72,120,0.3)'
+          }
+        ])
+      },
+      data: data2
+    },
+    {
+      name: '核心',
+      type: 'line',
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 5,
+      sampling: 'average',
+      itemStyle: {
+        color: '#0990FF'
+      },
+      stack: 'a',
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgba(58,77,233,0.8)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(58,77,233,0.3)'
+          }
+        ])
+      },
+      data: data3
+    }
+  ]
+};
+        myChart.setOption(option);
+                    </script>
+                </li>
+                <li class="right">
+                    <div class="boxall" style="height:240px">
+                        <div class="alltitle">数据总览</div>
+                        <div class="navboxall">
+                            <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col" class="toptop">阅读量</th>
+                                        <th scope="col">7689.1万</th>
+                                        <th scope="col">讨论量</th>
+                                        <th scope="col">6万</th>
+                                        <th scope="col">互动量</th>
+                                        <th scope="col">25.2万</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <img class='word_cloud' src="img/old.png">
+                        </div>
+                    </div>
+
+                    <div class="boxall" style="height: 350px" overflow="hidden">
+                        <div class="alltitle">话题排行榜</div>
+                        <div class="navboxall" >
+                            <table class="table1" width="100%" border="0" cellspacing="1" cellpadding="1">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col" class="toptop">排名</th>
+                                        <th scope="col">话题</th>
+                                        <th scope="col">讨论量</th>
+
+                                    </tr>
+                                    <tr>
+                                        <td><span>1</span></td>
+                                        <td>#瑞士卷怎么分</td>
+                                        <td>6万<br></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>2</span></td>
+                                        <td>#瑞士卷怎么分席卷全网老公</td>
+                                        <td>3万</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><span>3</span></td>
+                                        <td>#别掉进8个瑞士卷怎么分的话题</td>
+                                        <td>1.6万</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>4</span></td>
+                                        <td>#瑞士卷怎么分当时博主回应</td>
+                                        <td>388</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>5</span></td>
+                                        <td>#瑞士卷怎么分的起因</td>
+                                        <td>1019</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $('.wrap,.adduser').liMarquee({
+                direction: 'up',
+                /*向上滚动*/
+                runshort: false,
+                /*内容不足时不滚动*/
+                scrollamount: 20 /*速度*/
+            });
+        });
+    </script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript" src="js/jquery.liMarquee.js"></script>
+    <script type="text/javascript" src="js/jquery.cxselect.min.js"></script>
+</body>
+
+</html>
+
+
